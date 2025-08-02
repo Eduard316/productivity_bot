@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 import nest_asyncio 
 import pandas as pd
 from datetime import datetime
@@ -14,39 +14,34 @@ import asyncio
 
 nest_asyncio.apply()
 
-# === CONFIGURACIÓN ===
 TOKEN = "7958544063:AAGyM4Mj2QisNpAkwbcyv5TgDKWGqvZr_xU"
 
-# === BASE DE DATOS EN MEMORIA ===
 user_data = {}
 historial = []
 
-# === /start con presentación ===
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     user_data[chat_id] = {"step": "nombre"}
-
     bienvenida = (
-        👋 *Bienvenido al Bot de Productividad*
+        "👋 *Bienvenido al Bot de Productividad*
 
+"
+        "Este bot te ayudará a calcular la **productividad por turno** en segundos.
 
-        Este bot te ayudará a calcular la **productividad por turno** en segundos.
+"
+        "Solo responde unas preguntas sencillas y te mostraré:
+"
+        "📦 Ocupación aproximada por unidad
+"
+        "🧾 Facturación estimada
+"
+        "🧮 Unidades necesarias para cumplir con mínimo 2100 cajas por unidad
 
-
-        Solo responde unas preguntas sencillas y te mostraré:
-
-        📦 Ocupación aproximada por unidad
-
-        🧾 Facturación estimada
-
-        🧮 Unidades necesarias para cumplir con mínimo 2100 cajas por unidad
-
-
-        *Por favor, dime tu nombre o turno responsable para comenzar:*
+"
+        "*Por favor, dime tu nombre o turno responsable para comenzar:*"
     )
     await update.message.reply_text(bienvenida, parse_mode="Markdown")
 
-# === Flujo de preguntas ===
 async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     text = update.message.text
@@ -135,7 +130,6 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("¿Qué deseas hacer ahora?", reply_markup=InlineKeyboardMarkup(keyboard))
         data["step"] = "finalizado"
 
-# === Botones ===
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
@@ -151,7 +145,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_data.pop(chat_id, None)
         await query.edit_message_text(f"✅ Gracias, *{nombre}*, por usar el bot. ¡Hasta pronto!", parse_mode="Markdown")
 
-# === /id comando
 async def show_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
     uid = update.effective_user.id
     username = update.effective_user.username
@@ -161,7 +154,6 @@ async def show_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown"
     )
 
-# === /reporte comando
 async def enviar_reporte(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not historial:
         await update.message.reply_text("No hay datos aún para generar el reporte.")
@@ -176,17 +168,15 @@ async def enviar_reporte(update: Update, context: ContextTypes.DEFAULT_TYPE):
         caption="📊 Aquí está el reporte de productividad."
     )
 
-# === Flask App
 flask_app = Flask(__name__)
 
 @flask_app.route('/')
 def index():
-    return 'Bot de productividad activo (con lógica completa)'
+    return 'Bot de productividad activo (UTF-8 y comillas OK)'
 
 def run_flask():
     flask_app.run(host="0.0.0.0", port=10000)
 
-# === Main
 async def main():
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
@@ -194,7 +184,7 @@ async def main():
     app.add_handler(CommandHandler("reporte", enviar_reporte))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, message_handler))
     app.add_handler(CallbackQueryHandler(button_handler))
-    print("🤖 Bot de productividad listo.")
+    print("🤖 Bot listo con UTF-8 y comillas corregidas.")
     await app.run_polling()
 
 if __name__ == "__main__":
