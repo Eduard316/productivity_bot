@@ -27,22 +27,22 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_data[chat_id] = {"step": "nombre"}
 
     bienvenida = (
-        "👋 *Bienvenido al Bot de Productividad*
+        👋 *Bienvenido al Bot de Productividad*
 
-"
-        "Este bot te ayudará a calcular la **productividad por turno** en segundos.
 
-"
-        "Solo responde unas preguntas sencillas y te mostraré:
-"
-        "📦 Ocupación aproximada por unidad
-"
-        "🧾 Facturación estimada
-"
-        "🧮 Unidades necesarias para cumplir con mínimo 2100 cajas por unidad
+        Este bot te ayudará a calcular la **productividad por turno** en segundos.
 
-"
-        "*Por favor, dime tu nombre o turno responsable para comenzar:*"
+
+        Solo responde unas preguntas sencillas y te mostraré:
+
+        📦 Ocupación aproximada por unidad
+
+        🧾 Facturación estimada
+
+        🧮 Unidades necesarias para cumplir con mínimo 2100 cajas por unidad
+
+
+        *Por favor, dime tu nombre o turno responsable para comenzar:*
     )
     await update.message.reply_text(bienvenida, parse_mode="Markdown")
 
